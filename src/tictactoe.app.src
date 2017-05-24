@@ -1,5 +1,5 @@
 {application, tictactoe,
- [{description, "An OTP library"},
+ [{description, "An implementation of TIC TAC TOE minimax AI."},
   {vsn, "0.1.0"},
   {registered, []},
   {applications,
