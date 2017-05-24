@@ -37,15 +37,15 @@
 -spec who_wins(Board :: board()) -> game_result().
 %% Rows
 who_wins([A, A, A, _, _, _, _, _, _]) when A == 'X' orelse A == 'O' -> A;
-who_wins([_, _, _, A, A, A, _, _, _])  when A =='X' orelse A == 'O' -> A;
-who_wins([_, _, _, _, _, _, A, A, A])  when A =='X' orelse A == 'O' -> A;
+who_wins([_, _, _, A, A, A, _, _, _]) when A == 'X' orelse A == 'O' -> A;
+who_wins([_, _, _, _, _, _, A, A, A]) when A == 'X' orelse A == 'O' -> A;
 %% Columns
 who_wins([A, _, _, A, _, _, A, _, _]) when A == 'X' orelse A == 'O' -> A;
-who_wins([_, A, _, _, A, _, _, A, _])  when A =='X' orelse A == 'O' -> A;
-who_wins([_, _, A, _, _, A, _, _, A])  when A =='X' orelse A == 'O' -> A;
+who_wins([_, A, _, _, A, _, _, A, _]) when A == 'X' orelse A == 'O' -> A;
+who_wins([_, _, A, _, _, A, _, _, A]) when A == 'X' orelse A == 'O' -> A;
 %% diagonals
-who_wins([A, _, _, _, A, _, _, _, A])  when A =='X' orelse A == 'O' -> A;
-who_wins([_, _, A, _, A, _, A, _, _])  when A =='X' orelse A == 'O' -> A;
+who_wins([A, _, _, _, A, _, _, _, A]) when A == 'X' orelse A == 'O' -> A;
+who_wins([_, _, A, _, A, _, A, _, _]) when A == 'X' orelse A == 'O' -> A;
 who_wins(Board) ->
     case lists:member('E', Board) of
         true ->
@@ -88,6 +88,7 @@ score_game(Board) ->
 %% @doc Given a board state and a player, it will return the minimax
 %% integer value associated with it.
 %% @end
+-spec minimax_value(Board :: board(), Player :: player()) -> integer().
 minimax_value(Board, Player) ->
     case is_terminal_state(Board) of
         true ->
@@ -108,12 +109,28 @@ next_states_minimax_values(Board) ->
     MinimaxValues = lists:map(fun maximize_value/1, NextStates),
     lists:zip(NextStates, MinimaxValues).
 
+
+%% @doc Given a board and a player, it will compute the best possible
+%% move using the minimax algorithm. It will return the best possible
+%% move (a board) and its associated minimax value in a tuple.
+%% @end
+-spec take_a_master_move(Board :: board(), Player :: player()) ->
+    {integer(), board()}.
 take_a_master_move(Board, Player) ->
     NextStates = all_possible_next_states(Board, Player),
     MinimaxValues = lists:map(opposite(Player), NextStates),
-    lists:zip(MinimaxValues, NextStates).
+    StatesAndValues = lists:zip(MinimaxValues, NextStates),
+    Sorted = lists:keysort(1, StatesAndValues),
+    [ H | _T ] = case Player of
+        'X' ->
+            lists:reverse(Sorted);
+        'O' ->
+            Sorted
+    end,
+    H.
 
 %%===================================================================
+%% Internal Functions
 %%===================================================================
 
 maximize_value(Board) ->
