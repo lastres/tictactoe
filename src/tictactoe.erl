@@ -7,7 +7,6 @@
 
 -export([who_wins/1,
          minimax_value/2,
-         next_states_minimax_values/1,
          take_a_master_move/2,
          is_terminal_state/1,
          moves_count/1]).
@@ -103,12 +102,6 @@ minimax_value(Board, Player) ->
                     lists:min(lists:flatten(MinimaxValues))
             end
     end.
-
-next_states_minimax_values(Board) ->
-    NextStates = all_possible_next_states(Board, 'X'),
-    MinimaxValues = lists:map(fun maximize_value/1, NextStates),
-    lists:zip(NextStates, MinimaxValues).
-
 
 %% @doc Given a board and a player, it will compute the best possible
 %% move using the minimax algorithm. It will return the best possible
