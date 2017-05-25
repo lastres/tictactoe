@@ -15,7 +15,7 @@
 
 -type player() :: 'X' | 'O'.
 
--type square() :: 'X' | 'O' | 'E'.
+-type square() :: player() | 'E'.
 
 %% Dialyzer does not check number of elements on lists types.
 %% We could use a tuple, but for convenience prefer a list.
