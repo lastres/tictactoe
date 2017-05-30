@@ -2,6 +2,7 @@
  [{description, "An implementation of TIC TAC TOE minimax AI."},
   {vsn, "0.1.0"},
   {registered, []},
+  {mod, {tictactoe_app, []}},
   {applications,
    [kernel,
     stdlib
