@@ -11,7 +11,10 @@
          is_terminal_state/1,
          moves_count/1]).
 
--define(STARTBOARD, ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E']).
+-export_type([player/0,
+              square/0,
+              board/0,
+              game_result/0]).
 
 -type player() :: 'X' | 'O'.
 
