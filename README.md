@@ -117,3 +117,13 @@ After running Eunit tests, the following command will generate an HTML coverage 
 ```
 $ ./rebar3 cover
 ```
+
+TODO
+-
+Further implementation steps would be:
+
+* Add Eunit tests for WS handler. Using Gun (https://github.com/ninenines/gun) would be the way to go probably.
+* Improve (and test properly) game move validation.
+* Test game server logic properly (using Proper statem).
+* Implement two player mode in game server and WS handler.
+* Add difficulty level configuration by using random probabylity of making a master move. At the moment the game is unbeatable! (if it is actually correctly implemented).
