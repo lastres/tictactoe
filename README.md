@@ -48,10 +48,10 @@ The game server holds the game status and can be accessed using its own API (tic
 2> tictactoe_server:get_board_state().
 {ok,['E','E','E','E','E','E','E','E','E']}
 
-3> tictactoe_server:make_move(['E','E','E','E','E','E','E','E','E'], ['E','E','E','E','E','X','E','E','E']).
+3> tictactoe_server:make_move(['E','E','E','E','E','X','E','E','E']).
 {ok,['E','E','E','E','E','X','E','E','O']}
 ```
-The server plays as player `'O'` and the user plays as player `'X'`. The server will make the next move automatically after the user calls the `make_move/2` function to perform a move.
+The server plays as player `'O'` and the user plays as player `'X'`. The server will make the next move automatically after the user calls the `make_move/1` function to perform a move.
 
 Running Dialyzer
 -
