@@ -5,9 +5,8 @@
 %%===================================================================
 -module(tictactoe_tests).
 
--define(STARTBOARD, ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E']).
-
 -include_lib("eunit/include/eunit.hrl").
+-include("tictactoe.hrl").
 
 %% if the algorithm plays against itself, the game goes up to the
 %% maximum number of movements and it must end on a draw situation.
@@ -43,3 +42,22 @@ make_obvious_choices_test_() ->
      ?_assertEqual(['X', 'X', 'O', 'O', 'E', 'E', 'E', 'O', 'E'], NB2),
      ?_assertEqual(['X', 'X', 'X', 'O', 'O', 'E', 'E', 'O', 'E'], NB3),
      ?_assertEqual(['X', 'O', 'X', 'X', 'O', 'E', 'E', 'O', 'E'], NB4)].
+
+validate_move_test_() ->
+    [
+        ?_assert(tictactoe:is_valid_move(
+                ?STARTBOARD,
+                ['E', 'E', 'E', 'E', 'O', 'X', 'E', 'X', 'E'], 'X')),
+        ?_assertNot(tictactoe:is_valid_move(
+                ['E', 'E', 'E', 'X', 'E', 'O', 'E', 'X', 'E'],
+                ['E', 'E', 'E', 'X', 'E', 'O', 'E', 'X', 'X'], 'X')),
+        ?_assertNot(tictactoe:is_valid_move(
+                ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'X', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'E', 'X', 'X', 'E'], 'X')),
+        ?_assertNot(tictactoe:is_valid_move(
+                ['E', 'E', 'E', 'E', 'E', 'O', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'O', 'E', 'O', 'E'], 'O')),
+        ?_assert(tictactoe:is_valid_move(
+                ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'O', 'E'], 'O'))
+        ].
