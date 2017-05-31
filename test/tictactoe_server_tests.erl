@@ -50,8 +50,6 @@ game_reset_test(_) ->
      ok = tictactoe_server:reset_game(),
      [?_assertEqual({ok, ?STARTBOARD}, tictactoe_server:get_board_state())].
 
-     
-
 %% Uses the minimax algorithm to make a perfect move.
 make_perfect_move(Board) ->
     tictactoe:take_a_master_move(Board, 'X').
