@@ -69,7 +69,7 @@ game_status() ->
 %% @end
 -spec make_move(CurrentBoard :: tictactoe:board(),
                 NewBoard :: tictactoe:board()) ->
-    {ok, tictactoe:board()} | {error, Reason :: term()}.
+    {ok, tictactoe:board()} | {error,  'invalid_move'}.
 make_move(CurrentBoard, NewBoard) ->
     %% TODO: Validate input movement?
     gen_server:call(?MODULE, {move, CurrentBoard, NewBoard}).
@@ -88,18 +88,20 @@ handle_call(reset_game, _From, State) ->
 handle_call(get_game_status, _From, #state{game_state = GameState} = State) ->
     {reply, {ok, GameState}, State};
 handle_call({move, Board, NewBoard}, _From, #state{game_state = running,
-                                            board = Board} = State) ->
-    NextBoard = case tictactoe:is_terminal_state(NewBoard) of
-        false ->
-            {_MV, B} = tictactoe:take_a_master_move(NewBoard, 'O'),
-            B;
+                                                   board = Board} = State) ->
+    {Res, NextBoard} = case tictactoe:is_valid_move(Board, NewBoard, 'X') of
         true ->
-            NewBoard
+            B = get_next_board(NewBoard),
+            {{ok, B}, B};
+        false ->
+            {{error, invalid_move}, Board}
     end,
-    {reply, {ok, NextBoard}, State#state{
+    {reply, Res, State#state{
             game_state = tictactoe:who_wins(NextBoard),
             board = NextBoard}};
-handle_call({move, _B, _NB} , _From, State) ->
+handle_call({move, Board, _NB} , _From, #state{game_state = Status,
+                                               board = Board} = State)
+        when Status /= running ->
     {reply, {error, game_finished}, State}.
 
 handle_cast(_Msg, State) ->
@@ -117,3 +119,12 @@ code_change(_OldVsn, State, _Extra) ->
 %%===================================================================
 %% Internal Functions
 %%===================================================================
+
+get_next_board(NewBoard) ->
+    case tictactoe:is_terminal_state(NewBoard) of
+        false ->
+            {_MV, B} = tictactoe:take_a_master_move(NewBoard, 'O'),
+            B;
+        true ->
+            NewBoard
+    end.
