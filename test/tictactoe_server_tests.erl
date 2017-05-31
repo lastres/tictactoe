@@ -29,24 +29,24 @@ stop(_) ->
 %% on a draw situation.
 complete_perfect_game(_) ->
     {_, B1} = make_perfect_move(?STARTBOARD),
-    {ok, NB1} = tictactoe_server:make_move(?STARTBOARD, B1),
+    {ok, NB1} = tictactoe_server:make_move(B1),
     {_, B2} = make_perfect_move(NB1),
-    {ok, NB2} = tictactoe_server:make_move(NB1, B2),
+    {ok, NB2} = tictactoe_server:make_move(B2),
     {_, B3} = make_perfect_move(NB2),
-    {ok, NB3} = tictactoe_server:make_move(NB2, B3),
+    {ok, NB3} = tictactoe_server:make_move(B3),
     {_, B4} = make_perfect_move(NB3),
-    {ok, NB4} = tictactoe_server:make_move(NB3, B4),
+    {ok, NB4} = tictactoe_server:make_move(B4),
     {_, B5} = make_perfect_move(NB4),
-    {ok, NB5} = tictactoe_server:make_move(NB4, B5),
+    {ok, NB5} = tictactoe_server:make_move(B5),
     [?_assert(tictactoe:is_terminal_state(NB5)),
      ?_assertEqual(draw, tictactoe:who_wins(NB5)),
      ?_assertEqual({ok, draw}, tictactoe_server:game_status()),
-     ?_assertEqual({error, game_finished}, tictactoe_server:make_move(NB5, NB5)),
+     ?_assertEqual({error, game_finished}, tictactoe_server:make_move(NB5)),
      ?_assertEqual({ok, NB5}, tictactoe_server:get_board_state())].
 
 game_reset_test(_) ->
      {_, B} = make_perfect_move(?STARTBOARD),
-     {ok, _NB} = tictactoe_server:make_move(?STARTBOARD, B),
+     {ok, _NB} = tictactoe_server:make_move(B),
      ok = tictactoe_server:reset_game(),
      [?_assertEqual({ok, ?STARTBOARD}, tictactoe_server:get_board_state())].
 

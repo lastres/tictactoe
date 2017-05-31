@@ -16,7 +16,7 @@
 -export([start_link/0,
          reset_game/0,
          get_board_state/0,
-         make_move/2,
+         make_move/1,
          game_status/0]).
 
 %% gen_server callbacks
@@ -62,17 +62,16 @@ game_status() ->
 
 %% @doc It makes a move for player 'X'.
 %% The server plays as player 'O', user is always player 'X'
-%% It requires the current board in order to ensure the caller
-%% knows the correct current state of the game.
+%% The new board provided will be validated against the current board
+%% for a move for player 'X' and the move will be performed if it is
+%% valid.
 %% The server will, straight away, make the next move for the player
 %% 'O' and update the game state accordingly.
 %% @end
--spec make_move(CurrentBoard :: tictactoe:board(),
-                NewBoard :: tictactoe:board()) ->
+-spec make_move(NewBoard :: tictactoe:board()) ->
     {ok, tictactoe:board()} | {error,  'invalid_move'}.
-make_move(CurrentBoard, NewBoard) ->
-    %% TODO: Validate input movement?
-    gen_server:call(?MODULE, {move, CurrentBoard, NewBoard}).
+make_move(NewBoard) ->
+    gen_server:call(?MODULE, {move, NewBoard}).
 
 %%===================================================================
 %% gen_server callbacks
@@ -87,7 +86,7 @@ handle_call(reset_game, _From, State) ->
                             game_state = running}};
 handle_call(get_game_status, _From, #state{game_state = GameState} = State) ->
     {reply, {ok, GameState}, State};
-handle_call({move, Board, NewBoard}, _From, #state{game_state = running,
+handle_call({move, NewBoard}, _From, #state{game_state = running,
                                                    board = Board} = State) ->
     {Res, NextBoard} = case tictactoe:is_valid_move(Board, NewBoard, 'X') of
         true ->
@@ -99,7 +98,7 @@ handle_call({move, Board, NewBoard}, _From, #state{game_state = running,
     {reply, Res, State#state{
             game_state = tictactoe:who_wins(NextBoard),
             board = NextBoard}};
-handle_call({move, Board, _NB} , _From, #state{game_state = Status,
+handle_call({move, _NB} , _From, #state{game_state = Status,
                                                board = Board} = State)
         when Status /= running ->
     {reply, {error, game_finished}, State}.
