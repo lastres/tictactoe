@@ -5,11 +5,11 @@ This is an implementation of a Tic Tac Toe minimax AI algorithm in Erlang.
 
 It provides a game board representation and a way to fetch optimal moves from different game positions
 
-At the moment is just an OTP library, without supervisor tree of processes.
-
 It is based on the Minimax algorithm described here: https://mostafa-samir.github.io/Tic-Tac-Toe-AI/
 
-It also provides a game server that allows handling of the game status in memory.
+It also provides a game server that allows handling of the game status in memory and a Websocket handler
+based on Cowboy that allows the player to interact with the game server by using a websocket connetion.
+
 
 Dependencies
 -
@@ -52,6 +52,45 @@ The game server holds the game status and can be accessed using its own API (tic
 {ok,['E','E','E','E','E','X','E','E','O']}
 ```
 The server plays as player `'O'` and the user plays as player `'X'`. The server will make the next move automatically after the user calls the `make_move/2` function to perform a move.
+
+Websocket handler
+-
+Once the release is started the web server will be listening on `localhost` on port `8080`. The websocket handler can be reached on: `ws://localhost:8080/websocket`.
+
+A very easy way to interact with the websocket would be using the WS Chrome client extension that can be found here:
+https://chrome.google.com/webstore/detail/simple-websocket-client/pfdhoblngboilpfeibdedpjgfnlcodoo
+
+An example interaction would be:
+```
+board
+EEEEEEEEE
+status
+running
+EEEEXEEEE
+Move performed! new board ->EEEEXEEEO
+foo
+Invalid input!
+EEEEXEEXO
+Move performed! new board ->EOEEXEEXO
+EOEXXEEXO
+Move performed! new board ->EOEXXOEXO
+status
+running
+EOXXXOEXO
+Move performed! new board ->EOXXXOOXO
+status
+running
+XOXXXOOXO
+Move performed! new board ->XOXXXOOXO
+status
+draw
+reset
+Game reset performed
+status
+running
+board
+EEEEEEEEE
+```
 
 Running Dialyzer
 -
