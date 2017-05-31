@@ -5,10 +5,13 @@
 %%===================================================================
 -module(tictactoe).
 
+-include("tictactoe.hrl").
+
 -export([who_wins/1,
          minimax_value/2,
          take_a_master_move/2,
          is_terminal_state/1,
+         is_valid_move/3,
          moves_count/1]).
 
 -export_type([player/0,
@@ -125,9 +128,31 @@ take_a_master_move(Board, Player) ->
     end,
     H.
 
+%% @doc Given a possible move, validates whether it is a valid move or
+%% not
+%% @end
+-spec is_valid_move(Board :: board(), NewBoard :: board(), Player :: player()) ->
+    boolean().
+is_valid_move(Board, NewBoard, Player) ->
+    Zip = lists:zip(Board, NewBoard),
+    (not is_terminal_state(Board)) andalso
+    lists:member({'E', Player}, Zip) andalso
+    is_player_turn(Board, Player).
+
 %%===================================================================
 %% Internal Functions
 %%===================================================================
+
+is_player_turn(Board, 'O') ->
+    (not is_player_x_turn(Board)) orelse Board == ?STARTBOARD;
+is_player_turn(Board, 'X') ->
+    is_player_x_turn(Board).
+
+is_player_x_turn(Board) ->
+    X = length(lists:filter(fun is_player_x_square/1, Board)),
+    E = length(lists:filter(fun is_empty_square/1, Board)),
+    O = 9 - X - E,
+    X - O =< 0.
 
 maximize_value(Board) ->
     minimax_value(Board, 'X').
@@ -149,6 +174,9 @@ replace_empty_square(Board, Number, Player) ->
 -spec is_empty_square(Square :: square()) -> boolean().
 is_empty_square('E') -> true;
 is_empty_square(_) -> false.
+
+is_player_x_square('X') -> true;
+is_player_x_square(_) -> false.
 
 all_possible_next_states(Board, Player) ->
     all_possible_next_states(Board, Board, [], Player).
