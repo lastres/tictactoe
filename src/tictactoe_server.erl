@@ -98,8 +98,7 @@ handle_call({move, NewBoard}, _From, #state{game_state = running,
     {reply, Res, State#state{
             game_state = tictactoe:who_wins(NextBoard),
             board = NextBoard}};
-handle_call({move, _NB} , _From, #state{game_state = Status,
-                                               board = Board} = State)
+handle_call({move, _NB} , _From, #state{game_state = Status} = State)
         when Status /= running ->
     {reply, {error, game_finished}, State}.
 
