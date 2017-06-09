@@ -1,6 +1,8 @@
 %%%-------------------------------------------------------------------
+%% Copyright (c) 2017, Ramon Lastres
 %% @doc Tic-Tac-Toe game  top level supervisor.
 %% @end
+%% @author Ramon Lastres
 %%%-------------------------------------------------------------------
 -module(tictactoe_sup).
 

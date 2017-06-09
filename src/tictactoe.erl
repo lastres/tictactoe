@@ -1,4 +1,5 @@
 %%===================================================================
+%% Copyright (c) 2017, Ramon Lastres
 %% @doc Module that implements the minimax AI alrgorithm for TIC TAC TOE
 %% gaming.
 %% @end

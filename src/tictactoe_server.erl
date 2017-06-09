@@ -1,4 +1,5 @@
 %%===================================================================
+%% Copyright (c) 2017, Ramon Lastres
 %% @doc This module implements a gen_server that holds the game state
 %% for the Tic Tac Toe game. At the moment it implements a one player
 %% mode, with the user always playing as player 'X' and the server

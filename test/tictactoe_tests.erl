@@ -1,4 +1,5 @@
 %%===================================================================
+%% Copyright (c) 2017, Ramon Lastres
 %% @doc This module implements very simple Eunit tests for the
 %% minimax TicTacToe AI algorithm.
 %% @end

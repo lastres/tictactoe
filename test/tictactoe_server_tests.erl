@@ -1,4 +1,5 @@
 %%===================================================================
+%% Copyright (c) 2017, Ramon Lastres
 %% @doc This module implements simple tests for the tictactoe game
 %% server.
 %% @end
