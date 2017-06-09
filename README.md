@@ -5,8 +5,6 @@ This is an implementation of a Tic Tac Toe minimax AI algorithm in Erlang.
 
 It provides a game board representation and a way to fetch optimal moves from different game positions
 
-At the moment is just an OTP library, without supervisor tree of processes.
-
 It is based on the Minimax algorithm described here: https://mostafa-samir.github.io/Tic-Tac-Toe-AI/
 
 It also provides a game server that allows handling of the game status in memory.
