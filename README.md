@@ -1,4 +1,4 @@
-Tic Tac Toe
+Tic Tac Toe [![Build Status](https://travis-ci.org/lastres/tictactoe.svg?branch=master)](https://travis-ci.org/lastres/tictactoe)
 ========
 
 This is an implementation of a Tic Tac Toe minimax AI algorithm in Erlang.
@@ -30,7 +30,7 @@ Usage
 -
 The main function is `tictactoe:take_a_master_move/2`. It takes a board state, which is a 9 element list, and a player to play next. As an example:
 
-```
+```erlang
 1> tictactoe:take_a_master_move(['E','E','O','O','E','E','E','X','X'], 'X').
 {5,['E','E','O','O','E','E','X','X','X']}
 ```
@@ -39,7 +39,7 @@ Detail API documentation is provided on `tictactoe.erl` module.
 
 The game server holds the game status and can be accessed using its own API (tictactoe_server.erl).
 
-```
+```erlang
 1> tictactoe_server:game_status().
 {ok,running}
 
