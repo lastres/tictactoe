@@ -5,4 +5,4 @@ otp_release:
     - 18.0
     - 18.1
     - 18.2.1
-script: "./rebar3 eunit dialyzer cover"
+script: "./rebar3 eunit && ./rebar3 cover && ./rebar3 dialyzer"
